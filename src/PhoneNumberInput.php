@@ -12,4 +12,11 @@ class PhoneNumberInput extends Field
      * @var string
      */
     public $component = 'phone-number-input';
+
+    public function disabled($disabled = true)
+    {
+        return $this->withMeta([
+            'disabled' => $disabled
+        ]);
+    }
 }

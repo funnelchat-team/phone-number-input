@@ -1,7 +1,16 @@
 <template>
   <default-field :field="field" :errors="errors">
     <template slot="field">
-      <vue-tel-input v-model="value" :disabledFetchingCountry="true" :preferredCountries="preferredCountries" :dropdownOptions="dropdownOptions" :dynamicPlaceholder="true" :inputOptions="options" :validCharactersOnly="true"></vue-tel-input>
+      <vue-tel-input
+        v-model="value"
+        :disabled="isDisabled"
+        :disabledFetchingCountry="true"
+        :preferredCountries="preferredCountries"
+        :dropdownOptions="dropdownOptions"
+        :dynamicPlaceholder="true"
+        :inputOptions="options"
+        :validCharactersOnly="true"
+      ></vue-tel-input>
     </template>
   </default-field>
 </template>
@@ -17,26 +26,32 @@ export default {
   mixins: [FormField, HandlesValidationErrors],
 
   components: {
-    VueTelInput
+    VueTelInput,
   },
 
   data() {
     return {
       value: null,
       preferredCountries: ["ar", "br", "usa", "py", "us", "es"],
-      options: { showDialCode: true, tabindex: 0},
-      dropdownOptions: { disabledDialCode: false}
+      options: { showDialCode: true, tabindex: 0 },
+      dropdownOptions: { disabledDialCode: false },
     };
   },
 
   props: ["resourceName", "resourceId", "field"],
 
+  computed: {
+    isDisabled() {
+      return this.field.disabled || false;
+    },
+  },
   methods: {
     /*
      * Set the initial, internal value for the field.
      */
     setInitialValue() {
-      this.value = this.field.value != '+' ? this.field.value: this.field.country;
+      this.value =
+        this.field.value != "+" ? this.field.value : this.field.country;
     },
 
     /**
@@ -51,7 +66,7 @@ export default {
      */
     handleChange(value) {
       this.value = value;
-    }
-  }
+    },
+  },
 };
 </script>
